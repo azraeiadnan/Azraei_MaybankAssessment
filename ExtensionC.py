@@ -9,9 +9,9 @@ MOHAMAD AZRAEI BIN MOHD ADNAN
 NeXT Graduate Programme Assessment
 2/12/2021
 '''
-
-import pandas as pd
 #Weather and City
+import pandas as pd
+
 url = "http://api.open-notify.org/iss-now.json"
 df = pd.read_json(url)
 df['latitude'] = df.loc['latitude','iss_position']
@@ -33,6 +33,8 @@ print("lon = " +queryY)
 wf = pd.read_json(allTogether)
 print(wf)
 
+
+#Number of Astronauts
 import requests
 r = requests.get(url='http://api.open-notify.org/astros.json')
 r.json()
