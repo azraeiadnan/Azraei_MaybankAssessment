@@ -1,28 +1,35 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[1]:
+# In[15]:
 
 
-import json
-import urllib.request
-import webbrowser
-import geocoder
+import pandas as pd
+#Weather and City
+url = "http://api.open-notify.org/iss-now.json"
+df = pd.read_json(url)
+df['latitude'] = df.loc['latitude','iss_position']
+df['longitude'] = df.loc[ 'longitude','iss_position']
+df.reset_index(inplace=True)
 
-url = "http://api.open-notify.org/astros.json"
-response = urllib.request.urlopen(url)
-result = json.loads(response.read())
-file = open("iss.txt", "w")
-file.write("There are currently " +
-           str(result["number"]) + " astronauts on the ISS: \n\n")
-people = result["people"]
-for p in people:
-    file.write(p['name'] + " - on board" + "\n")
-# print long and lat
-g = geocoder.ip('me')
-file.write("\nYour current lat / long is: " + str(g.latlng))
-file.close()
-webbrowser.open("iss.txt")
+weather_base = "http://api.weatherapi.com/v1/current.json?key="
+weather_key = "655e7f09794147e694e121906213011&q="
+x = df.latitude
+y = df.longitude
+queryX = str (x[0])
+queryY = str (y[0])
+
+allTogether = weather_base+weather_key+queryX+","+queryY
+
+print("lat = " +queryX)
+print("lon = " +queryY)
+
+wf = pd.read_json(allTogether)
+print(wf)
+
+import requests
+r = requests.get(url='http://api.open-notify.org/astros.json')
+r.json()
 
 
 # In[ ]:
